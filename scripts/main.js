@@ -6,8 +6,8 @@
 
     fetch("https://lava-tranquil-chance.glitch.me/movies"
     ).then((response) =>
-        response.json().then((favoriteMovie) => {
-            console.log(favoriteMovie);}
+        response.json().then((favoriteMovies) => {
+            console.log(favoriteMovies);}
 
     )).catch(err => console.error(err));
 
@@ -15,7 +15,36 @@
 
 //TODO: Create a form for user to add favorite movie
 
-//TODO: On submit post new movie to Glitch DB, w/ prevent default(stop page reload)
+
+    $('#add-movie-button').on('click', function (event) {
+        event.preventDefault()
+        const movie = {
+
+            title: document.getElementById('movie-title-input').value,
+            rating: parseInt(document.getElementById('user-movie-rating').value),
+
+        };
+        const url = 'https://lava-tranquil-chance.glitch.me/movies';
+        const favoriteOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(movie),
+        };
+        console.log('Button Works')
+        console.log(movie.title);
+        console.log(movie.rating);
+        fetch(url, favoriteOptions).then(movie => movie.json())
+            .then( movie => console.log(movie) ).then(() => fetch("https://lava-tranquil-chance.glitch.me/movies"
+        ).then((response) =>
+            response.json().then((favoriteMovies) => {
+                console.log(favoriteMovies);}
+
+            )).catch(err => console.error(err))
+            )})
+
+    //TODO: On submit post new movie to Glitch DB, w/ prevent default(stop page reload)
 
 //TODO: Edit an existing movie with  different form
 
@@ -73,7 +102,7 @@
 
         }
 
-        )).catch(err => console.error(err));
+        )).catch(err => console.error(err))
 
 
 

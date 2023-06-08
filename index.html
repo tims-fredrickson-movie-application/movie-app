@@ -23,13 +23,19 @@
         <div class="offcanvas offcanvas-end text-bg-dark" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop"
              aria-labelledby="staticBackdropLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="staticBackdropLabel">Offcanvas</h5>
+                <h5 class="offcanvas-title" id="staticBackdropLabel">Add a Movie to Favorites</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                         aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
                 <div>
-                    I will not close if you click outside of me.
+                    <form>
+                        <input type="text" name="movie-title" id="movie-title-input" class="form-control" placeholder="Movie Title">
+
+                        <input type="text" name="movie-rating" id="user-movie-rating" placeholder="Rating between 1-5">
+
+                        <button type="submit" class="btn" id="add-movie-button">Add Movie</button>
+                    </form>
                 </div>
             </div>
         </div>
