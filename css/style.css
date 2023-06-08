@@ -1,14 +1,25 @@
+:root {
+    --primary: #534E4E;
+    --secondary: #FAF6F4;
+    --highlight: #85FA5A;
+}
 h1 {
     text-align: center;
+}
+
+.btn {
+    background-color: var(--highlight);
+    color: var(--primary);
 }
 
 #image-container {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
-#movie-poster {
+.movie-posters {
     height: 30vh;
     border-radius: 5px;
-    box-shadow: 5px 5px 5px lightgrey;
+    box-shadow: 2px 2px 2px var(--highlight);
 }

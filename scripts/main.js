@@ -46,10 +46,21 @@
         .then(movie => movie.json())
         .then(movie => {
             console.log(movie)
-            let posterPath = movie.results[1].poster_path
-            let url = `https://image.tmdb.org/t/p/original${posterPath}`
-            $('#movie-poster').attr('src', `${url}`)
+            movie.results.forEach(function (item) {
+                if(item.poster_path !== null) {
+                    console.log(item.title)
+                    let posterPath = item.poster_path
+                    let url = `https://image.tmdb.org/t/p/original${posterPath}`
+                    var img = $('<img />', {
+                        src: url,
+                        alt: 'Movie poster',
+                        class: 'movie-posters m-2'
+                    });
+                    img.appendTo($('#image-container'));
 
+                }
+
+            })
         })
         .catch(err => console.error(err));
 
