@@ -9,7 +9,7 @@
         response.json().then((favoriteMovie) => {
             console.log(favoriteMovie);}
 
-    ));
+    )).catch(err => console.error(err));
 
 
 
@@ -41,28 +41,42 @@
             Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZTQ3NWZkMTdjMGIyMDQyOTdkODI1M2VhNzBmOTY0MCIsInN1YiI6IjVjNDdjY2JiYzNhMzY4NDc4OTg3Njk0ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.rVwEd19kyUs8rZsU3h_i-dZk2Xe-qe07Ge6tA0WGMuE'
         }
     };
+    fetch("https://lava-tranquil-chance.glitch.me/movies"
+    ).then((response) =>
+        response.json().then((favoriteMovie) => {
+            favoriteMovie.forEach(
+                function (movie){
+                   let title = movie.title
+                    fetch(`https://api.themoviedb.org/3/search/movie?query=${title}&include_adult=false&language=en-US&page=1`, options)
+                        .then(movie => movie.json())
+                        .then(movie => {
+                            console.log(movie)
+                            movie.results.forEach(function (item) {
+                                if(item.poster_path !== null && item.vote_count > 1000 ) {
+                                    console.log(item.title)
+                                    let posterPath = item.poster_path
+                                    let url = `https://image.tmdb.org/t/p/original${posterPath}`
+                                    var img = $('<img />', {
+                                        src: url,
+                                        alt: 'Movie poster',
+                                        class: 'movie-posters m-2'
+                                    });
+                                    img.appendTo($('#image-container'));
 
-    fetch('https://api.themoviedb.org/3/search/movie?query=John%20Wick&include_adult=false&language=en-US&page=1', options)
-        .then(movie => movie.json())
-        .then(movie => {
-            console.log(movie)
-            movie.results.forEach(function (item) {
-                if(item.poster_path !== null) {
-                    console.log(item.title)
-                    let posterPath = item.poster_path
-                    let url = `https://image.tmdb.org/t/p/original${posterPath}`
-                    var img = $('<img />', {
-                        src: url,
-                        alt: 'Movie poster',
-                        class: 'movie-posters m-2'
-                    });
-                    img.appendTo($('#image-container'));
+                                }
 
+                            })
+                        })
+                        .catch(err => console.error(err));
                 }
+            )
 
-            })
-        })
-        .catch(err => console.error(err));
+        }
+
+        )).catch(err => console.error(err));
+
+
+
 
 
 
