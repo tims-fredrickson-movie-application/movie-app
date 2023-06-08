@@ -75,13 +75,14 @@
         response.json().then((favoriteMovie) => {
             favoriteMovie.forEach(
                 function (movie){
-                   let title = movie.title
+                   let title = movie.title.toLowerCase()
                     fetch(`https://api.themoviedb.org/3/search/movie?query=${title}&include_adult=false&language=en-US&page=1`, options)
                         .then(movie => movie.json())
                         .then(movie => {
                             console.log(movie)
                             movie.results.forEach(function (item) {
-                                if(item.poster_path !== null && item.vote_count > 1000 ) {
+                                let dBTitle = item.title.toLowerCase()
+                                if( title === dBTitle && item.poster_path !== null && item.vote_count > 1000 ) {
                                     console.log(item.title)
                                     let posterPath = item.poster_path
                                     let url = `https://image.tmdb.org/t/p/original${posterPath}`
