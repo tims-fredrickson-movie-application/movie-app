@@ -1,6 +1,17 @@
-//TODO: Add loading animation(message) Remove after load
+
+    //TODO: Add loading animation(message) Remove after load
 
 //TODO: Get all movies from Glitch DB
+
+
+    fetch("https://lava-tranquil-chance.glitch.me/movies"
+    ).then((response) =>
+        response.json().then((favoriteMovie) => {
+            console.log(favoriteMovie);}
+
+    ));
+
+
 
 //TODO: Create a form for user to add favorite movie
 
@@ -21,4 +32,30 @@
 //TODO: Allow sorting by rating, title, genre
 
 //TODO: Allow user to search through movies by title, genre, or rating.
+
+//TODO: Connect to TMDB API
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZTQ3NWZkMTdjMGIyMDQyOTdkODI1M2VhNzBmOTY0MCIsInN1YiI6IjVjNDdjY2JiYzNhMzY4NDc4OTg3Njk0ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.rVwEd19kyUs8rZsU3h_i-dZk2Xe-qe07Ge6tA0WGMuE'
+        }
+    };
+
+    fetch('https://api.themoviedb.org/3/search/movie?query=John%20Wick&include_adult=false&language=en-US&page=1', options)
+        .then(movie => movie.json())
+        .then(movie => {
+            console.log(movie)
+            let posterPath = movie.results[1].poster_path
+            let url = `https://image.tmdb.org/t/p/original${posterPath}`
+            $('#movie-poster').attr('src', `${url}`)
+
+        })
+        .catch(err => console.error(err));
+
+
+
+
+
+
 

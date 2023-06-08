@@ -1,0 +1,14 @@
+h1 {
+    text-align: center;
+}
+
+#image-container {
+    display: flex;
+    justify-content: center;
+}
+
+#movie-poster {
+    height: 30vh;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px lightgrey;
+}
