@@ -89,7 +89,7 @@
                                     var img = $('<img />', {
                                         src: url,
                                         alt: 'Movie poster',
-                                        class: 'movie-posters m-2'
+                                        class: 'movie-posters m-3'
                                     });
                                     img.appendTo($('#image-container'));
 
