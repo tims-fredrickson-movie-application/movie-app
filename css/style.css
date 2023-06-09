@@ -1,25 +1,42 @@
 :root {
-    --primary: #534E4E;
-    --secondary: #FAF6F4;
-    --highlight: #85FA5A;
+  --primary: #534e4e;
+  --secondary: #faf6f4;
+  --highlight: #85fa5a;
 }
 h1 {
-    text-align: center;
+  text-align: center;
+}
+
+#staticBackdropLabel {
+  color: var(--highlight);
+  text-align: center;
 }
 
 .btn {
-    background-color: var(--highlight);
-    color: var(--primary);
+  background-color: var(--highlight);
+  color: var(--primary);
 }
 
 #image-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#search-results-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .movie-posters {
-    height: 30vh;
-    border-radius: 5px;
-    box-shadow: 5px 5px 15px  var(--secondary);
+  height: 30vh;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px var(--secondary);
+}
+
+.side-movie-posters {
+  height: 20vh;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px var(--secondary);
 }
