@@ -74,7 +74,8 @@ $("#add-movie-button").on("click", function (event) {
   )
     .then((movie) => movie.json())
     .then((movie) => {
-      movie.results.forEach(function (item) {
+      $("#search-results-container").empty()
+      movie.results.forEach(function (item, index) {
         let dBTitle = item.title.toLowerCase();
         console.log(item.title);
         if (
@@ -83,14 +84,28 @@ $("#add-movie-button").on("click", function (event) {
           item.vote_count > 1000
         ) {
           console.log(item.title);
+          console.log(index);
           let posterPath = item.poster_path;
           let url = `https://image.tmdb.org/t/p/original${posterPath}`;
-          let img = $("<img />", {
+          let img = $("<img/>", {
             src: url,
             alt: "Movie poster",
-            class: "side-movie-posters m-3",
+            class: "side-movie-posters card-img-top w-100",
           });
-          img.appendTo("#search-results-container");
+
+          $("#search-results-container").append(`
+            <div class="card sideCard bg-dark border-light m-3">
+              <img src="https://image.tmdb.org/t/p/original${posterPath}" alt="">
+              <div class="card-body">
+                <h5 class="card-title">${item.title}</h5>
+                <p class="card-text">${item.release_date}</p>
+                <button class="btn btn-primary w-100" id="${index}">Add to favorites</button>
+              </div>
+            </div>`);
+          $(`#${index}`).on('click', function(){
+            console.log(item.title)
+          })
+          // img.appendTo("#sideCard-img")
         }
       });
     })

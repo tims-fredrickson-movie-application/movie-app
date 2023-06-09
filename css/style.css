@@ -31,12 +31,21 @@ h1 {
 
 .movie-posters {
   height: 30vh;
+  border: 2px solid gray;
   border-radius: 5px;
-  box-shadow: 5px 5px 15px var(--secondary);
+  box-shadow: 3px 8px 16px gray;
 }
 
-.side-movie-posters {
-  height: 20vh;
+/*.side-movie-posters {*/
+/*  height: 25%;*/
+/*  border-radius: 5px;*/
+/*  box-shadow: 5px 5px 15px var(--secondary);*/
+/*}*/
+
+.sideCard {
+  width: 14rem;
+  height: 50%;
   border-radius: 5px;
-  box-shadow: 5px 5px 15px var(--secondary);
+  box-shadow: 3px 8px 16px gray;
 }
+
