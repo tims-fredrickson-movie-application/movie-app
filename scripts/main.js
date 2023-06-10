@@ -1,9 +1,18 @@
 //TODO: Add loading animation(message) Remove after load
 
-//TODO: Get all movies from Glitch DB
+//TODO: Edit an existing movie with  different form
 
-//TODO: Create a form for user to add favorite movie
+//TODO: Prepopulate form with selected movie w/ prevent default
 
+//TODO: use bootstrap disable button feature during request, once request comes back enable button
+
+//TODO: Add extra data to movie cards from Movie DB
+
+//TODO: Allow sorting by rating, title, genre
+
+//TODO: Allow user to search through movies by title, genre, or rating.
+
+// -----------------------------Add Movie Function----------------------
 $("#add-movie-button").on("click", function (event) {
   event.preventDefault();
   const movie = {
@@ -85,25 +94,7 @@ $("#add-movie-button").on("click", function (event) {
     .catch((err) => console.error(err));
 });
 
-//TODO: On submit post new movie to Glitch DB, w/ prevent default(stop page reload)
-
-//TODO: Edit an existing movie with  different form
-
-//TODO: Prepopulate form with selected movie w/ prevent default
-
-//TODO: add "X" button to delete movie from favorites(Glitch DB) via a DELETE request
-
-//TODO: use bootstrap disable button feature during request, once request comes back enable button
-
-//TODO: Use modals or other cool bootstrap utilities to make forms look cool
-
-//TODO: Add extra data to movie cards from Movie DB
-
-//TODO: Allow sorting by rating, title, genre
-
-//TODO: Allow user to search through movies by title, genre, or rating.
-
-//TODO: Connect to TMDB API
+// --------------------------Render Movies from Glitch DB w/ TMDB Data-----------
 const options = {
   method: "GET",
   headers: {
@@ -170,6 +161,9 @@ let renderMovieData = () => {
                 </div>
               </div>
             </div>`);
+
+                  // -----------------------Delete Movie Function-----------------
+
                   $(`#delete-${dbID}`).on("click", function () {
                     fetch(
                       `https://lava-tranquil-chance.glitch.me/movies/${dbID}`,
