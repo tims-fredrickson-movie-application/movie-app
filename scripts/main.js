@@ -27,8 +27,6 @@ $("#add-movie-button").on("click", function (event) {
     .then((movie) => {
       $("#search-results-container").empty();
       movie.results.forEach(function (item, index) {
-        let dBTitle = item.title.toLowerCase();
-
         if (
           // movieTitle === dBTitle &&
           item.poster_path !== null &&
@@ -64,11 +62,15 @@ $("#add-movie-button").on("click", function (event) {
           console.log(index);
           $(`#${index}`).on("click", function () {
             let movieStars = $(`#stars-${index}`).find(":selected").val();
+
             // console.log(movieStars);
 
             const movie = {
               title: item.title,
               rating: parseInt(movieStars),
+              TMDBID: item.id,
+              movieOverview: item.overview,
+              movieGenres: item.genre_ids,
             };
             const url = "https://lava-tranquil-chance.glitch.me/movies";
             const addMovieOptions = {
@@ -83,7 +85,6 @@ $("#add-movie-button").on("click", function (event) {
               .then((movie) => {
                 $("#image-container").empty();
                 renderMovieData();
-                console.log(`${movie.title} has been added to Glitch`);
               }) /* review was created successfully */
               .catch((error) => console.error(error)); /* handle errors */
           });
@@ -104,13 +105,31 @@ const options = {
   },
 };
 
-let renderMovieData = () => {
+let renderMovieData = (title) => {
   fetch("https://lava-tranquil-chance.glitch.me/movies")
     .then((response) =>
       response.json().then((favoriteMovie) => {
         favoriteMovie.forEach(function (movie, index) {
           let title = movie.title;
           let dbID = movie.id;
+          let rating = movie.rating;
+          let tmdbID = movie.TMDBID;
+          let movieGenres = movie.movieGenres;
+
+          let stars = "";
+          if (rating === 1) {
+            stars = "⭐️";
+          } else if (rating === 2) {
+            stars = "⭐️⭐️";
+          } else if (rating === 3) {
+            stars = "⭐️⭐️⭐️";
+          } else if (rating === 4) {
+            stars = "⭐️⭐️⭐️⭐️";
+          } else if (rating === 5) {
+            stars = "⭐️⭐️⭐️⭐️⭐️";
+          } else {
+            stars = "Oops I forgot to rate the movie.";
+          }
           fetch(
             `https://api.themoviedb.org/3/search/movie?query=${title}&include_adult=false&language=en-US&page=1`,
             options
@@ -130,13 +149,102 @@ let renderMovieData = () => {
                   let posterPath = item.poster_path;
                   let bannerPath = item.backdrop_path;
                   let url = `https://image.tmdb.org/t/p/original${posterPath}`;
-                  let img = $("<img/>", {
-                    src: url,
-                    alt: "Movie poster",
-                    class: "side-movie-posters card-img-top w-100",
-                  });
+                  // let img = $("<img/>", {
+                  //   src: url,
+                  //   alt: "Movie poster",
+                  //   class: "side-movie-posters card-img-top w-100",
+                  // });
 
-                  $("#image-container").append(`<!-- Button trigger modal -->
+                  let tmdbGenres = [
+                    {
+                      id: 28,
+                      name: "Action",
+                    },
+                    {
+                      id: 12,
+                      name: "Adventure",
+                    },
+                    {
+                      id: 16,
+                      name: "Animation",
+                    },
+                    {
+                      id: 35,
+                      name: "Comedy",
+                    },
+                    {
+                      id: 80,
+                      name: "Crime",
+                    },
+                    {
+                      id: 99,
+                      name: "Documentary",
+                    },
+                    {
+                      id: 18,
+                      name: "Drama",
+                    },
+                    {
+                      id: 10751,
+                      name: "Family",
+                    },
+                    {
+                      id: 14,
+                      name: "Fantasy",
+                    },
+                    {
+                      id: 36,
+                      name: "History",
+                    },
+                    {
+                      id: 27,
+                      name: "Horror",
+                    },
+                    {
+                      id: 10402,
+                      name: "Music",
+                    },
+                    {
+                      id: 9648,
+                      name: "Mystery",
+                    },
+                    {
+                      id: 10749,
+                      name: "Romance",
+                    },
+                    {
+                      id: 878,
+                      name: "Science Fiction",
+                    },
+                    {
+                      id: 10770,
+                      name: "TV Movie",
+                    },
+                    {
+                      id: 53,
+                      name: "Thriller",
+                    },
+                    {
+                      id: 10752,
+                      name: "War",
+                    },
+                    {
+                      id: 37,
+                      name: "Western",
+                    },
+                  ];
+
+                  let updatedGenres = [];
+                  movieGenres.forEach((glitchMovie) => {
+                    tmdbGenres.forEach((tmdbMovie) => {
+                      if (tmdbMovie.id === glitchMovie) {
+                        updatedGenres.push(tmdbMovie.name);
+                      }
+                    });
+                  });
+                  let genre = updatedGenres.join(" ");
+                  $("#image-container").append(
+                    `<!-- Button trigger modal -->
                <img src="https://image.tmdb.org/t/p/original${posterPath}" class="m-2 btn poster-modal" data-bs-toggle="modal" data-bs-target="#movieDetails-${index}" id="modal-${index}" >
 
             <!-- Modal -->
@@ -149,47 +257,120 @@ let renderMovieData = () => {
                   </div>
                   <div class="modal-body">
                     <img src="https://image.tmdb.org/t/p/original${bannerPath}" alt="" class="w-100">
-                    <h6>Release Date: ${item.release_date}</h6>
+                    <p class="my-1">Category: ${genre}</p>
+                    <h6 class="my-1">Release Date: ${item.release_date}</h6>
                     
-                    <h3>Movie Overview:</h3>
+                    <h3 class="my-1">Movie Overview:</h3>
                     <p>${item.overview}</p>
+                    <h3 class="my-1">My Rating: <h4>${stars}</h4></h3>
+                    
+                      <iframe id="trailer-player-${dbID}" class="w-100" height="315"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                   </div>
-                  <div class="modal-footer d-flex justify-content-center">
-                    <button type="button" class="btn justify-start mx-3" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="delete-${dbID}" class="btn mx-3" data-bs-dismiss="modal">Delete Movie</button>
+                  
+                  <div id="delete-confirm-${dbID}" class="delete-confirm text-center"><button  id="delete-button-${dbID}" class="text-center delete-confirm-button btn my-2" data-bs-dismiss="modal">Confirm Delete</button></div>
+                  <div>
+                  <form action="" id="edit-form-${dbID}" class="edit-form text-center p-2 ">
+                  <label for="new-title-${dbID}">Title</label>
+                  <input type="text" name="new-title" id="new-title-${dbID}" placeholder="${item.title}">
+                  <button class="btn my-2" id="updateTitle-${dbID}" data-bs-dismiss="modal">Update Title</button>
+                  </form>
+                
+                  </div>
+                  <div class="modal-footer d-flex justify-content-center m-2">
+                    <button  type="button" class="btn justify-start mx-3" id="edit-button-${dbID}" >Edit Movie</button>
+                    
+                    <button type="button" id="delete-${dbID}" class="btn mx-3" >Delete Movie</button>
                   </div>
                 </div>
               </div>
-            </div>`);
+            </div>`
+                  );
+                  fetch(
+                    `https://api.themoviedb.org/3/movie/${tmdbID}/videos?language=en-US`,
+                    options
+                  )
+                    .then((movie) => movie.json())
+                    .then((movie) => {
+                      movie.results.forEach((item) => {
+                        if (
+                          item.site === "YouTube" &&
+                          item.type === "Trailer"
+                        ) {
+                          let trailerSrc = `https://www.youtube-nocookie.com/embed/${item.key}`;
+                          $(`#trailer-player-${dbID}`).attr(
+                            "src",
+                            `${trailerSrc}`
+                          );
+                        }
+                      });
+                    })
+                    .catch((err) => console.error(err));
+
+                  // ;
 
                   // -----------------------Delete Movie Function-----------------
 
-                  $(`#delete-${dbID}`).on("click", function () {
-                    fetch(
-                      `https://lava-tranquil-chance.glitch.me/movies/${dbID}`,
-                      {
-                        method: "DELETE",
-                      }
-                    )
-                      .then((movie) => movie.json())
-                      .then((movie) => {
-                        $("#image-container").empty();
-                        console.log(
-                          `${movie.title} has been removed from Glitch`
-                        );
-                      })
-                      .then(() => {
-                        renderMovieData();
-                        return;
-                      }) /* review was deleted successfully */
-                      .catch((error) => console.error(error))
+                  $(`#delete-${dbID}`).on("click", function (event) {
+                    event.preventDefault();
+                    $(`#delete-confirm-${dbID}`).toggle();
+                    $(`#delete-button-${dbID}`).on("click", (event) => {
+                      event.preventDefault();
+                      fetch(
+                        `https://lava-tranquil-chance.glitch.me/movies/${dbID}`,
+                        {
+                          method: "DELETE",
+                        }
+                      )
+                        .then((movie) => movie.json())
+                        .then((movie) => {
+                          $("#image-container").empty();
+                          console.log(
+                            `${movie.title} has been removed from Glitch`
+                          );
+                        })
+                        .then(() => {
+                          renderMovieData();
+                        }) /* review was deleted successfully */
+                        .catch((error) => console.error(error))
 
-                      .catch((err) => console.error(err));
+                        .catch((err) => console.error(err));
+                    });
                   });
                 }
               });
             })
-            .catch((err) => console.error(err));
+            // --------------------------Edit Movie Function-------------------
+            .then(() => {
+              $(`#edit-button-${dbID}`).on("click", (event) => {
+                event.preventDefault();
+                console.log("edit button clicked");
+                $(`#edit-form-${dbID}`).toggle();
+              });
+            })
+            .then(() => {
+              $(`#updateTitle-${dbID}`).on("click", (event) => {
+                event.preventDefault();
+                fetch(`https://lava-tranquil-chance.glitch.me/movies/${dbID}`, {
+                  method: "PUT",
+                  headers: { "content-type": "application/json" },
+                  body: JSON.stringify({
+                    title: $(`#new-title-${dbID}`).val(),
+                    id: dbID,
+                  }),
+                })
+                  .then((movie) => movie.json())
+                  .then((movie) => {
+                    $("#image-container").empty();
+                    console.log(`${movie.title} has been Edited to `);
+                  })
+                  .then(() => {
+                    renderMovieData();
+                  }) /* review was deleted successfully */
+                  .catch((error) => console.error(error))
+
+                  .catch((err) => console.error(err));
+              });
+            });
         });
       })
     )
