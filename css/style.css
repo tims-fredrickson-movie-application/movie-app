@@ -1,10 +1,51 @@
 :root {
-  --primary: #534e4e;
+  --primary: #201f1f;
   --secondary: #faf6f4;
   --highlight: #85fa5a;
 }
 h1 {
   text-align: center;
+}
+
+#loading-message {
+  color: var(--highlight);
+  transition: opacity 0.75s, visibility 0.75s;
+}
+
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s, visibility 0.75s;
+}
+
+.loader-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader::after {
+  content: "";
+  width: 200px;
+  height: 200px;
+  border: 10px solid #201f1fff;
+  border-top-color: var(--highlight);
+  border-radius: 50%;
+  animation: loading 0.75s ease infinite;
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
 }
 
 #staticBackdropLabel {

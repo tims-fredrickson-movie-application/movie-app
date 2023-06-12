@@ -109,6 +109,14 @@ let renderMovieData = () => {
   fetch("https://lava-tranquil-chance.glitch.me/movies")
     .then((response) =>
       response.json().then((favoriteMovie) => {
+        const loader = document.querySelector(".loader");
+        const loadingMessage = document.querySelector("#loading-message");
+        loadingMessage.classList.add("loader-hidden");
+        loader.classList.add("loader-hidden");
+        loader.addEventListener("transitionend", () => {
+          document.body.removeChild(".loader");
+          console.log("loader removed");
+        });
         favoriteMovie.forEach(function (movie, index) {
           let title = movie.title;
           let dbID = movie.id;
@@ -138,23 +146,14 @@ let renderMovieData = () => {
             .then((movie) => {
               movie.results.forEach(function (item) {
                 let dBTitle = item.title;
-
                 if (
                   title === dBTitle &&
                   item.poster_path !== null &&
                   item.vote_count > 1000
                 ) {
-                  console.log(title);
-                  // console.log(`${favoriteMovie.id}: ${item.title}:${index}`);
                   let posterPath = item.poster_path;
                   let bannerPath = item.backdrop_path;
                   let url = `https://image.tmdb.org/t/p/original${posterPath}`;
-                  // let img = $("<img/>", {
-                  //   src: url,
-                  //   alt: "Movie poster",
-                  //   class: "side-movie-posters card-img-top w-100",
-                  // });
-
                   let tmdbGenres = [
                     {
                       id: 28,
@@ -365,7 +364,8 @@ let renderMovieData = () => {
                   })
                   .then(() => {
                     renderMovieData();
-                  }) /* review was deleted successfully */
+                  })
+                  /* review was deleted successfully */
                   .catch((error) => console.error(error))
 
                   .catch((err) => console.error(err));
