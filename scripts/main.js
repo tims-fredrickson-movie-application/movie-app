@@ -1,39 +1,28 @@
-//TODO: Edit an existing movie with  different form
+const renderSearchCards =
+  // -----------------------------Add Movie Function----------------------
+  $("#add-movie-button").on("click", function (event) {
+    event.preventDefault();
+    const movie = {
+      title: document.getElementById("movie-title-input").value,
+    };
+    let movieTitle = movie.title.toLowerCase();
+    fetch(
+      `https://api.themoviedb.org/3/search/movie?query=${movieTitle}&include_adult=false&language=en-US&page=1`,
+      options
+    )
+      .then((movie) => movie.json())
+      .then((movie) => {
+        $("#search-results-container").empty();
+        movie.results.forEach(function (item, index) {
+          if (
+            // movieTitle === dBTitle &&
+            item.poster_path !== null &&
+            item.vote_count > 1000
+          ) {
+            let posterPath = item.poster_path;
+            let url = `https://image.tmdb.org/t/p/original${posterPath}`;
 
-//TODO: Prepopulate form with selected movie w/ prevent default
-
-//TODO: use bootstrap disable button feature during request, once request comes back enable button
-
-//TODO: Add extra data to movie cards from Movie DB
-
-//TODO: Allow sorting by rating, title, genre
-
-//TODO: Allow user to search through movies by title, genre, or rating.
-
-// -----------------------------Add Movie Function----------------------
-$("#add-movie-button").on("click", function (event) {
-  event.preventDefault();
-  const movie = {
-    title: document.getElementById("movie-title-input").value,
-  };
-  let movieTitle = movie.title.toLowerCase();
-  fetch(
-    `https://api.themoviedb.org/3/search/movie?query=${movieTitle}&include_adult=false&language=en-US&page=1`,
-    options
-  )
-    .then((movie) => movie.json())
-    .then((movie) => {
-      $("#search-results-container").empty();
-      movie.results.forEach(function (item, index) {
-        if (
-          // movieTitle === dBTitle &&
-          item.poster_path !== null &&
-          item.vote_count > 1000
-        ) {
-          let posterPath = item.poster_path;
-          let url = `https://image.tmdb.org/t/p/original${posterPath}`;
-
-          $("#search-results-container").append(`
+            $("#search-results-container").append(`
             <div class="card sideCard bg-dark border-light m-3 text-center">
               <img src="https://image.tmdb.org/t/p/original${posterPath}" alt="">
               <div class="card-body">
@@ -52,40 +41,40 @@ $("#add-movie-button").on("click", function (event) {
                
               </div>
             </div>`);
-          console.log(index);
-          $(`#${index}`).on("click", function () {
-            let movieStars = $(`#stars-${index}`).find(":selected").val();
 
-            // console.log(movieStars);
+            $(`#${index}`).on("click", function () {
+              let movieStars = $(`#stars-${index}`).find(":selected").val();
 
-            const movie = {
-              title: item.title,
-              rating: parseInt(movieStars),
-              TMDBID: item.id,
-              movieOverview: item.overview,
-              movieGenres: item.genre_ids,
-            };
-            const url = "https://lava-tranquil-chance.glitch.me/movies";
-            const addMovieOptions = {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(movie),
-            };
-            fetch(url, addMovieOptions)
-              .then((movie) => movie.json())
-              .then((movie) => {
-                $("#image-container").empty();
-                renderMovieData();
-              }) /* review was created successfully */
-              .catch((error) => console.error(error)); /* handle errors */
-          });
-        }
-      });
-    })
-    .catch((err) => console.error(err));
-});
+              // console.log(movieStars);
+
+              const movie = {
+                title: item.title,
+                rating: parseInt(movieStars),
+                TMDBID: item.id,
+                movieOverview: item.overview,
+                movieGenres: item.genre_ids,
+              };
+              const url = "https://lava-tranquil-chance.glitch.me/movies";
+              const addMovieOptions = {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(movie),
+              };
+              fetch(url, addMovieOptions)
+                .then((movie) => movie.json())
+                .then((movie) => {
+                  $("#image-container").empty();
+                  renderMovieData();
+                }) /* review was created successfully */
+                .catch((error) => console.error(error)); /* handle errors */
+            });
+          }
+        });
+      })
+      .catch((err) => console.error(err));
+  });
 
 // --------------------------Render Movies from Glitch DB w/ TMDB Data-----------
 const options = {
@@ -219,6 +208,7 @@ let renderMovieData = () => {
                       name: "Western",
                     },
                   ];
+                  let formatDate = item.release_date;
 
                   let updatedGenres = [];
                   movieGenres.forEach((glitchMovie) => {
@@ -239,19 +229,19 @@ let renderMovieData = () => {
               <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">${item.title}</h1>
+                    <h1 class="modal-title display-6 " id="exampleModalLabel">${item.title}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <img src="https://image.tmdb.org/t/p/original${bannerPath}" alt="" class="w-100">
-                    <p class="my-1">Category: ${genre}</p>
-                    <h6 class="my-1">Release Date: ${item.release_date}</h6>
+                    <img src="https://image.tmdb.org/t/p/original${bannerPath}" alt="" class="w-100 my-2">
+                    <p class="my-2">Category: ${genre}</p>
+                    <h6 class="my-2">Release Date: ${formatDate}</h6>
                     
-                    <h3 class="my-1">Movie Overview:</h3>
+                    <h3 class="my-2">Movie Overview:</h3>
                     <p>${item.overview}</p>
-                    <h3 class="my-1">My Rating: <h4>${stars}</h4></h3>
+                    <h3 class="my-2">My Rating: <h4>${stars}</h4></h3>
                     
-                      <iframe id="trailer-player-${dbID}" class="w-100" height="315"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                      <iframe id="trailer-player-${dbID}" class="w-100 my-2" height="315"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                   </div>
                   
                   <div id="delete-confirm-${dbID}" class="delete-confirm text-center"><button  id="delete-button-${dbID}" class="text-center delete-confirm-button btn my-2" data-bs-dismiss="modal">Confirm Delete</button></div>
@@ -441,27 +431,46 @@ let renderMovieData = () => {
                   }
                 });
                 console.log(newGenres);
-                let newRating = parseInt(`#new-movie-${dbID}`.val());
-                fetch(`https://lava-tranquil-chance.glitch.me/movies/${dbID}`, {
-                  method: "PUT",
-                  headers: { "content-type": "application/json" },
-                  body: JSON.stringify({
-                    title: $(`#new-title-${dbID}`).val(),
-                    rating: newRating,
-                    movieOverview: $(`#new-overview-${dbID}`).val(),
-                    movieGenres: newGenres,
-                    TMDBID: null,
-                    id: `${dbID}`,
-                  }),
-                })
-                  .then((movie) => movie.json())
-                  .then((movie) => {
-                    updateGenres = [];
-                    $("#image-container").empty();
-                    renderMovieData();
+                const newTitle = $(`#new-title-${dbID}`).val();
+                fetch(
+                  `https://api.themoviedb.org/3/search/movie?query=${newTitle}&include_adult=false&language=en-US&page=1`,
+                  options
+                )
+                  .then((newMovie) => newMovie.json())
+                  .then((newMovie) => {
+                    newMovie.results.forEach(function (item) {
+                      let newMovieTitle = item.title;
+                      if (
+                        newTitle === newMovieTitle &&
+                        item.poster_path !== null &&
+                        item.vote_count > 1000
+                      ) {
+                        fetch(
+                          `https://lava-tranquil-chance.glitch.me/movies/${dbID}`,
+                          {
+                            method: "PUT",
+                            headers: { "content-type": "application/json" },
+                            body: JSON.stringify({
+                              title: newTitle,
+                              rating: parseInt($(`#new-movie-${dbID}`).val()),
+                              movieOverview: $(`#new-overview-${dbID}`).val(),
+                              movieGenres: newGenres,
+                              TMDBID: item.id,
+                              id: `${dbID}`,
+                            }),
+                          }
+                        )
+                          .then((movie) => movie.json())
+                          .then(() => {
+                            updateGenres = [];
+                            $("#image-container").empty();
+                            renderMovieData();
+                          })
+                          /* review was deleted successfully */
+                          .catch((error) => console.error(error));
+                      }
+                    });
                   })
-                  /* review was deleted successfully */
-                  .catch((error) => console.error(error))
 
                   .catch((err) => console.error(err));
               });

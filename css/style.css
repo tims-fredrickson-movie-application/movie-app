@@ -8,6 +8,10 @@ h2 {
   text-align: center;
 }
 
+.modal-title {
+  color: var(--highlight);
+}
+
 #loading-message {
   color: var(--highlight);
   transition: opacity 0.75s, visibility 0.75s;
@@ -65,6 +69,7 @@ h2 {
 
 .btn:hover {
   background-color: var(--primary);
+  border: 1px solid var(--highlight);
   color: var(--highlight);
 }
 
@@ -128,4 +133,9 @@ h2 {
 #trailer-player {
   width: 100%;
   height: 315px;
+}
+
+.form-control:focus {
+  border-color: #2d7d30;
+  box-shadow: inset 0 1px 1px var(--highlight), 0 0 8px rgb(45, 125, 48);
 }
