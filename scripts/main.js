@@ -1,4 +1,4 @@
-const renderSearchCards =
+
   // -----------------------------Add Movie Function----------------------
   $("#add-movie-button").on("click", function (event) {
     event.preventDefault();
@@ -234,8 +234,10 @@ let renderMovieData = () => {
                   </div>
                   <div class="modal-body">
                     <img src="https://image.tmdb.org/t/p/original${bannerPath}" alt="" class="w-100 my-2">
-                    <p class="my-2">Category: ${genre}</p>
-                    <h6 class="my-2">Release Date: ${formatDate}</h6>
+                    <h3 class="my-2">Category: </h3>
+                    <p>${genre}</p>
+                    <h3 class="my-2">Release Date: </h3>
+                    <p>${formatDate}</p>
                     
                     <h3 class="my-2">Movie Overview:</h3>
                     <p>${item.overview}</p>

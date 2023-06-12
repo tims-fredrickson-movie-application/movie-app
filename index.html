@@ -13,7 +13,9 @@
       integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
       crossorigin="anonymous"
     />
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" />
     <title>My Favorite Movies</title>
   </head>
@@ -21,51 +23,52 @@
     <nav class="navbar bg-dark">
       <div class="container-fluid">
         <span id="brand" class="display-4"
-          ><img src="assets/brand.png" border="0" />
+        ><img src="assets/brand.png" id="brand-img" border="0" />
         </span>
         <button
-          class="btn"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#staticBackdrop"
-          aria-controls="staticBackdrop"
+                class="btn"
+                id="open-sidebar"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#staticBackdrop"
+                aria-controls="staticBackdrop"
         >
-          Modify Your Favorite Movies List
+          Add Movies
         </button>
 
         <div
-          class="offcanvas offcanvas-end text-bg-dark w-50"
-          data-bs-backdrop="static"
-          tabindex="-1"
-          id="staticBackdrop"
-          aria-labelledby="staticBackdropLabel"
+                class="offcanvas offcanvas-end text-bg-dark w-50"
+                data-bs-backdrop="static"
+                tabindex="-1"
+                id="staticBackdrop"
+                aria-labelledby="staticBackdropLabel"
         >
           <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="staticBackdropLabel">
+            <h3 class="offcanvas-title" id="staticBackdropLabel">
               Add a Movie to Favorites
-            </h5>
+            </h3>
             <button
-              type="button"
-              class="btn-close btn-close-white"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
             ></button>
           </div>
           <div class="offcanvas-body">
             <div>
               <form>
                 <input
-                  type="text"
-                  name="movie-title"
-                  id="movie-title-input"
-                  class="form-control w-100 m-1"
-                  placeholder="Movie Title"
+                        type="text"
+                        name="movie-title"
+                        id="movie-title-input"
+                        class="form-control w-100 m-1"
+                        placeholder="Movie Title"
                 />
 
                 <button
-                  type="submit"
-                  class="btn w-100 m-1"
-                  id="add-movie-button"
+                        type="submit"
+                        class="btn w-100 m-1"
+                        id="add-movie-button"
                 >
                   Search
                 </button>
@@ -77,6 +80,7 @@
         </div>
       </div>
     </nav>
+
 
     <h2 id="loading-message">
       We know you are excited.... your movies are being loaded!

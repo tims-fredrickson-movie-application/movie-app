@@ -1,11 +1,21 @@
+
 :root {
   --primary: #201f1f;
   --secondary: #faf6f4;
   --highlight: #85fa5a;
 }
+* {
+  font-family: serif;
+}
+
 h1,
 h2 {
   text-align: center;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+h3 {
+  font-family: 'Bebas Neue', sans-serif;
 }
 
 .modal-title {
@@ -61,10 +71,18 @@ h2 {
   color: var(--highlight);
   text-align: center;
 }
+#header {
+  
+}
 
 .btn {
   background-color: var(--highlight);
   color: var(--primary);
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+#open-sidebar {
+  margin-right: 10px;
 }
 
 .btn:hover {
@@ -72,6 +90,7 @@ h2 {
   border: 1px solid var(--highlight);
   color: var(--highlight);
 }
+
 
 .poster-modal {
   background-color: var(--primary);
@@ -139,3 +158,5 @@ h2 {
   border-color: #2d7d30;
   box-shadow: inset 0 1px 1px var(--highlight), 0 0 8px rgb(45, 125, 48);
 }
+
+
