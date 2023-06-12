@@ -1,5 +1,3 @@
-//TODO: Add loading animation(message) Remove after load
-
 //TODO: Edit an existing movie with  different form
 
 //TODO: Prepopulate form with selected movie w/ prevent default
@@ -34,11 +32,6 @@ $("#add-movie-button").on("click", function (event) {
         ) {
           let posterPath = item.poster_path;
           let url = `https://image.tmdb.org/t/p/original${posterPath}`;
-          let img = $("<img/>", {
-            src: url,
-            alt: "Movie poster",
-            class: "side-movie-posters card-img-top w-100",
-          });
 
           $("#search-results-container").append(`
             <div class="card sideCard bg-dark border-light m-3 text-center">
@@ -88,7 +81,6 @@ $("#add-movie-button").on("click", function (event) {
               }) /* review was created successfully */
               .catch((error) => console.error(error)); /* handle errors */
           });
-          // img.appendTo("#sideCard-img")
         }
       });
     })
@@ -100,8 +92,7 @@ const options = {
   method: "GET",
   headers: {
     accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZTQ3NWZkMTdjMGIyMDQyOTdkODI1M2VhNzBmOTY0MCIsInN1YiI6IjVjNDdjY2JiYzNhMzY4NDc4OTg3Njk0ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.rVwEd19kyUs8rZsU3h_i-dZk2Xe-qe07Ge6tA0WGMuE",
+    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZTQ3NWZkMTdjMGIyMDQyOTdkODI1M2VhNzBmOTY0MCIsInN1YiI6IjVjNDdjY2JiYzNhMzY4NDc4OTg3Njk0ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.rVwEd19kyUs8rZsU3h_i-dZk2Xe-qe07Ge6tA0WGMuE`,
   },
 };
 
@@ -113,10 +104,7 @@ let renderMovieData = () => {
         const loadingMessage = document.querySelector("#loading-message");
         loadingMessage.classList.add("loader-hidden");
         loader.classList.add("loader-hidden");
-        loader.addEventListener("transitionend", () => {
-          document.body.removeChild(".loader");
-          console.log("loader removed");
-        });
+
         favoriteMovie.forEach(function (movie, index) {
           let title = movie.title;
           let dbID = movie.id;
@@ -153,7 +141,6 @@ let renderMovieData = () => {
                 ) {
                   let posterPath = item.poster_path;
                   let bannerPath = item.backdrop_path;
-                  let url = `https://image.tmdb.org/t/p/original${posterPath}`;
                   let tmdbGenres = [
                     {
                       id: 28,
@@ -268,10 +255,12 @@ let renderMovieData = () => {
                   
                   <div id="delete-confirm-${dbID}" class="delete-confirm text-center"><button  id="delete-button-${dbID}" class="text-center delete-confirm-button btn my-2" data-bs-dismiss="modal">Confirm Delete</button></div>
                   <div>
+                  
+                  
                   <form action="" id="edit-form-${dbID}" class="edit-form text-center p-2 ">
                   <label for="new-title-${dbID}">Title</label>
                   <input type="text" name="new-title" id="new-title-${dbID}" placeholder="${item.title}">
-                  <button class="btn my-2" id="updateTitle-${dbID}" data-bs-dismiss="modal">Update Title</button>
+                  <button class="btn my-2" id="updateTitle-${dbID}" data-bs-dismiss="modal">Update Movie</button>
                   </form>
                 
                   </div>

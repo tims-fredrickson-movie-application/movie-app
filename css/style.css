@@ -3,7 +3,8 @@
   --secondary: #faf6f4;
   --highlight: #85fa5a;
 }
-h1 {
+h1,
+h2 {
   text-align: center;
 }
 
