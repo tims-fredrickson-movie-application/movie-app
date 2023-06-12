@@ -228,6 +228,7 @@ let renderMovieData = () => {
                       }
                     });
                   });
+
                   let genre = updatedGenres.join(" ");
                   $("#image-container").append(
                     `<!-- Button trigger modal -->
@@ -258,8 +259,25 @@ let renderMovieData = () => {
                   
                   
                   <form action="" id="edit-form-${dbID}" class="edit-form text-center p-2 ">
-                  <label for="new-title-${dbID}">Title</label>
-                  <input type="text" name="new-title" id="new-title-${dbID}" placeholder="${item.title}">
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="new-title-${dbID}" placeholder="${item.title}" aria-label="Movie Title" aria-describedby="basic-addon2">
+                    <span class="input-group-text" id="basic-addon2">Movie Title</span>
+                  </div>
+                  <div class="input-group mb-3">
+                     <input type="text" id="new-movie-${dbID}" class="form-control" placeholder="Number of Stars" aria-label="Movie Rating" aria-describedby="basic-addon2">
+                     <span class="input-group-text" id="basic-addon2">Movie Rating</span>
+                   </div>
+                   <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="new-genre-${dbID}" placeholder="${genre}" aria-label="Movie Genre" aria-describedby="basic-addon2">
+                    <span class="input-group-text" id="basic-addon2">Genre</span>
+                   </div>
+                   <div class="input-group mb-3">
+                    <textarea type="text" id="new-overview-${dbID}" class="form-control" placeholder="${item.overview}" aria-label="Recipient's username" aria-describedby="basic-addon2"></textarea>
+                    <span class="input-group-text" id="basic-addon2">Movie Description</span>
+                   </div>
+
+
+
                   <button class="btn my-2" id="updateTitle-${dbID}" data-bs-dismiss="modal">Update Movie</button>
                   </form>
                 
@@ -338,20 +356,30 @@ let renderMovieData = () => {
             .then(() => {
               $(`#updateTitle-${dbID}`).on("click", (event) => {
                 event.preventDefault();
+                const newGenres = [];
+                    tmdbGenres.forEach((tmdbItem) => {
+                      if (tmdbItem.name === $(`#new-genre-${dbID}`).val()) {
+                        newGenres.push(tmdbItem.id);
+                      }
+                    })
+
+
+
                 fetch(`https://lava-tranquil-chance.glitch.me/movies/${dbID}`, {
                   method: "PUT",
                   headers: { "content-type": "application/json" },
                   body: JSON.stringify({
                     title: $(`#new-title-${dbID}`).val(),
-                    id: dbID,
+                    rating: $(`#new-movie-${dbID}`).val(),
+                    movieOverview: $(`#new-overview-${dbID}`).val(),
+                    genre: newGenres,
+                    id: `${dbID}`
                   }),
                 })
                   .then((movie) => movie.json())
                   .then((movie) => {
+                    updateGenres = [];
                     $("#image-container").empty();
-                    console.log(`${movie.title} has been Edited to `);
-                  })
-                  .then(() => {
                     renderMovieData();
                   })
                   /* review was deleted successfully */
