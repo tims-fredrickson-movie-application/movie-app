@@ -13,6 +13,10 @@ h2 {
   transition: opacity 0.75s, visibility 0.75s;
 }
 
+#brand {
+  color: var(--highlight);
+}
+
 .loader {
   position: fixed;
   top: 0;
