@@ -105,7 +105,7 @@ const options = {
   },
 };
 
-let renderMovieData = (title) => {
+let renderMovieData = () => {
   fetch("https://lava-tranquil-chance.glitch.me/movies")
     .then((response) =>
       response.json().then((favoriteMovie) => {
