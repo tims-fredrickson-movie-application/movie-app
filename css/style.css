@@ -18,15 +18,14 @@ h3 {
   color: var(--highlight);
 }
 
-#loading-message {
-  color: var(--highlight);
-  transition: opacity 0.75s, visibility 0.75s;
-}
-
 #brand {
   color: var(--highlight);
 }
 
+#loading-message {
+  color: var(--highlight);
+  transition: opacity 0.75s, visibility 0.75s;
+}
 .loader {
   position: fixed;
   top: 0;
